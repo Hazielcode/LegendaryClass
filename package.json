@@ -1,0 +1,23 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "watch": "vite build --watch",
+        "hot": "vite --host",
+        "production": "vite build --mode production",
+        "fresh": "npm run build && php artisan view:clear && php artisan config:clear",
+        "setup": "npm install && npm run build"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.2",
+        "axios": "^1.6.4",
+        "laravel-vite-plugin": "^1.0",
+        "postcss": "^8.4.6",
+        "tailwindcss": "^3.2.1",
+        "vite": "^5.0"
+    }
+}

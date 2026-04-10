@@ -1,0 +1,160 @@
+/* Efectos adicionales para recompensas */
+
+/* Animaciones de rareza específicas */
+.reward-card[data-rarity="legendary"] {
+    animation: legendary-glow 3s ease-in-out infinite alternate;
+}
+
+.reward-card[data-rarity="epic"] {
+    animation: epic-pulse 2s ease-in-out infinite;
+}
+
+.reward-card[data-rarity="rare"] {
+    animation: rare-shimmer 4s linear infinite;
+}
+
+@keyframes legendary-glow {
+    0% { 
+        box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        transform: translateY(0px) scale(1);
+    }
+    100% { 
+        box-shadow: 0 0 40px rgba(251, 191, 36, 0.6);
+        transform: translateY(-5px) scale(1.02);
+    }
+}
+
+@keyframes epic-pulse {
+    0%, 100% { 
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    }
+    50% { 
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.7);
+    }
+}
+
+@keyframes rare-shimmer {
+    0% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+    25% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+    75% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.6); }
+    100% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+}
+
+/* Efectos de partículas en hover */
+.reward-card:hover::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 10px 10px;
+    animation: particles 2s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes particles {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translate(-10px, -10px) rotate(360deg); opacity: 0; }
+}
+
+/* Mejoras en transiciones */
+.reward-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
+}
+
+.reward-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    z-index: 10;
+}
+
+/* Efectos de texto brillante */
+.text-glow {
+    text-shadow: 0 0 10px currentColor;
+}
+
+/* Animación de carga para botones */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Efectos de estado de rareza */
+.rarity-border-common { border: 2px solid rgba(156, 163, 175, 0.5); }
+.rarity-border-rare { border: 2px solid rgba(59, 130, 246, 0.7); }
+.rarity-border-epic { border: 2px solid rgba(168, 85, 247, 0.7); }
+.rarity-border-legendary { border: 2px solid rgba(251, 191, 36, 0.8); }
+
+/* Mejoras de accesibilidad */
+.reward-card:focus-within {
+    outline: 2px solid rgba(59, 130, 246, 0.8);
+    outline-offset: 2px;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .reward-card {
+        margin-bottom: 1rem;
+    }
+    
+    .reward-card:hover {
+        transform: translateY(-4px) scale(1.02);
+    }
+}
+
+/* Efectos de notificación mejorados */
+.notification-enter {
+    animation: slideInRight 0.5s ease-out;
+}
+
+.notification-exit {
+    animation: slideOutRight 0.5s ease-in;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Mejoras en el backdrop blur */
+.backdrop-blur-custom {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Efectos de cristal mejorados */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}

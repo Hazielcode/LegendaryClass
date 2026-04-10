@@ -1,0 +1,43 @@
+# ── Dependencias ─────────────────────────────────────────────────
+node_modules/
+vendor/
+
+# ── Entorno ───────────────────────────────────────────────────────
+.env
+.env.backup
+.env.production
+.env.testing
+
+# ── Laravel: archivos generados en runtime ────────────────────────
+storage/logs/*.log
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+storage/app/public/
+public/storage
+public/hot
+bootstrap/cache/*.php
+
+# ── Build / assets compilados ─────────────────────────────────────
+public/build/
+public/mix-manifest.json
+
+# ── OS / IDE ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ── PHP ───────────────────────────────────────────────────────────
+.phpunit.result.cache
+phpunit.xml
+
+# ── Telescope (panel de debug) ────────────────────────────────────
+public/vendor/telescope/
+
+# ── Claude Code ──────────────────────────────────────────────────
+.claude/
