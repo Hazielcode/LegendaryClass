@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class StudentReward extends Model
 {
@@ -95,12 +95,12 @@ class StudentReward extends Model
     public function getStatusIcon()
     {
         $icons = [
-            'pending' => '⏳',
-            'approved' => '✅',
-            'delivered' => '🎁',
-            'cancelled' => '❌'
+            'pending' => 'â³',
+            'approved' => 'âœ…',
+            'delivered' => 'ðŸŽ',
+            'cancelled' => 'âŒ'
         ];
 
-        return $icons[$this->status] ?? '❓';
+        return $icons[$this->status] ?? 'â“';
     }
 }

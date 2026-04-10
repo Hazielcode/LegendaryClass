@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Reward extends Model
 {
@@ -92,7 +92,7 @@ class Reward extends Model
         return $this->is_active && ($this->stock_quantity === null || $this->stock_quantity > 0);
     }
 
-    // Métodos de estilo existentes
+    // MÃ©todos de estilo existentes
     public function getRarityColor()
     {
         $colors = [
@@ -115,7 +115,7 @@ class Reward extends Model
         return $borders[$this->rarity] ?? 'border-gray-500/30';
     }
 
-    // Métodos de estilo para la nueva vista
+    // MÃ©todos de estilo para la nueva vista
     public function getRarityBorderClass()
     {
         $borders = [
@@ -199,16 +199,16 @@ class Reward extends Model
                            ->count();
         
         if ($usedCount >= $reward->max_uses_per_student) {
-            return "Ya alcanzaste el límite máximo de esta recompensa.";
+            return "Ya alcanzaste el lÃ­mite mÃ¡ximo de esta recompensa.";
         }
     }
 
     if (!$reward->is_active) {
-        return "Esta recompensa no está disponible.";
+        return "Esta recompensa no estÃ¡ disponible.";
     }
 
     if ($reward->stock_quantity !== null && $reward->stock_quantity <= 0) {
-        return "Esta recompensa está agotada.";
+        return "Esta recompensa estÃ¡ agotada.";
     }
 
     return "No puedes canjear esta recompensa.";

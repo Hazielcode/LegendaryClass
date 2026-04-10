@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
-use MongoDB\Laravel\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $connection = 'mongodb';
     protected $table = 'users';
 
     // Campos que se pueden llenar masivamente
@@ -22,8 +20,6 @@ class User extends Authenticatable
         'password',
         'role', // 'teacher', 'student', 'admin', 'director', 'parent'
         'avatar',
-        'classroom_ids',
-        'children_ids', // Para padres: IDs de sus hijos
         'parent_email',
         'phone',
         'grade_level',
@@ -80,8 +76,6 @@ class User extends Authenticatable
         'date_of_birth' => 'date',
         'is_active' => 'boolean',
         'preferences' => 'array',
-        'classroom_ids' => 'array',
-        'children_ids' => 'array',
         
         // Casts para sistema de personajes
         'experience_points' => 'integer',
@@ -147,10 +141,8 @@ class User extends Authenticatable
     {
         if ($this->role === 'teacher') {
             return $this->hasMany(Classroom::class, 'teacher_id');
-        } elseif ($this->role === 'student') {
-            return Classroom::whereIn('student_ids', [$this->_id]);
         } else {
-            return $this->belongsToMany(Classroom::class, null, 'student_ids', 'classroom_ids');
+            return $this->belongsToMany(Classroom::class, 'classroom_user', 'user_id', 'classroom_id');
         }
     }
 
@@ -195,25 +187,31 @@ class User extends Authenticatable
     }
 
     // Relación para padres - obtener sus hijos
+    public function children()
+    {
+        return $this->belongsToMany(User::class, 'parent_student', 'parent_id', 'student_id');
+    }
+
     public function getChildrenAttribute()
     {
-        if ($this->role !== 'parent' || empty($this->children_ids)) {
+        if ($this->role !== 'parent') {
             return collect();
         }
-        
-        return User::whereIn('_id', $this->children_ids)->get();
+        return $this->children()->get();
     }
 
     // Relación para estudiantes - obtener sus padres
+    public function parents()
+    {
+        return $this->belongsToMany(User::class, 'parent_student', 'student_id', 'parent_id');
+    }
+
     public function getParentsAttribute()
     {
         if ($this->role !== 'student') {
             return collect();
         }
-        
-        return User::where('role', 'parent')
-                  ->where('children_ids', 'all', [$this->_id])
-                  ->get();
+        return $this->parents()->get();
     }
 
     // ============= MÉTODOS DE UTILIDAD PARA ROLES =============
@@ -378,7 +376,7 @@ class User extends Authenticatable
         // Registrar en log de experiencia si el modelo existe
         if (class_exists('\App\Models\ExperienceLog')) {
             \App\Models\ExperienceLog::create([
-                'user_id' => $this->_id,
+                'user_id' => $this->id,
                 'points' => $points,
                 'action' => $action,
                 'description' => $description,
@@ -677,13 +675,4 @@ class User extends Authenticatable
         return in_array($classroomId, $this->classroom_ids ?? []);
     }
 
-    /**
- * Sobrescribir método para compatibilidad con MongoDB
- */
-public static function create(array $attributes = [])
-{
-    $model = new static($attributes);
-    $model->save();
-    return $model;
-}
 }

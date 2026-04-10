@@ -2,19 +2,16 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Classroom extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'classrooms';
     
     protected $fillable = [
         'name',
         'description',
         'teacher_id',
-        'student_ids',
         'subject',
         'grade_level',
         'school_year',
@@ -28,7 +25,6 @@ class Classroom extends Model
     ];
     
     protected $casts = [
-        'student_ids' => 'array',
         'is_active' => 'boolean',
         'settings' => 'array'
     ];
@@ -104,7 +100,7 @@ class Classroom extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, null, 'classroom_ids', 'student_ids');
+        return $this->belongsToMany(User::class, 'classroom_user', 'classroom_id', 'user_id');
     }
 
     public function behaviors()

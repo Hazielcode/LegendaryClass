@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 // app/Models/Behavior.php
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Behavior extends Model
 {
